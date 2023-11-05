@@ -41,7 +41,11 @@ class TextInputComponent(AbstractComponent):
                 self._text = self._text[:-1]
 
             else:
-                self._text += event.unicode
+                try:
+                    self._text += event.unicode
+
+                except:
+                    pass
 
     def update(self) -> None:
         """Обновляет состояние поля ввода"""

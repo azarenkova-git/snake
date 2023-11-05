@@ -18,7 +18,7 @@ class RealGame(abstract_game.AbstractGame):
         super().__init__()
         self._fps_controller = pygame.time.Clock()
         self.set_scene(start_scene.StartScene(self))
-        self.start_game()
+        self._start_game()
 
     def set_scene(self, scene: abstract_scene.AbstractScene):
         """Устанавливает активную сцену и меняет заголовок окна/размер окна"""
@@ -34,11 +34,13 @@ class RealGame(abstract_game.AbstractGame):
 
         return self._play_surface
 
-    def start_game(self):
-        while True:
-            self.game_tick()
+    def _start_game(self):
+        """Запускает игру"""
 
-    def game_tick(self):
+        while True:
+            self._game_tick()
+
+    def _game_tick(self):
         """Самый главный метод, который вызывается каждый кадр. Отвечает за обновление и отрисовку сцены"""
 
         self._events = pygame.event.get()
@@ -55,6 +57,8 @@ class RealGame(abstract_game.AbstractGame):
         self._fps_controller.tick(self._get_tick_rate())
 
     def _get_tick_rate(self) -> int:
+        """Возвращает частоту обновления сцены"""
+
         if self._active_scene.get_tick_rate() < 5:
             return 5
 

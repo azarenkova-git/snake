@@ -32,6 +32,23 @@ class SnakeGameTests(unittest.TestCase):
     def test_segments_count(self):
         self.assertEqual(self._main_scene.get_snake().get_segments_count(), 1)
 
+    def test_lost(self):
+        for _ in range(17):
+            self._mock_game.update(
+                [
+                    pygame.event.Event(
+                        pygame.KEYDOWN,
+                        {
+                            "key": pygame.K_UP,
+                        },
+                    )
+                ]
+            )
+
+        scores = self._mock_game.get_scores()
+
+        self.assertEqual(scores["Player"], [0])
+
     def test_movement(self):
         current_coordinates = (
             self._main_scene.get_snake().get_head_segment().get_coordinates()
