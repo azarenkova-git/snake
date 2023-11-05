@@ -19,7 +19,7 @@ class AbstractScene(abstract_component.AbstractComponent):
         self, game: game.Game, window_size: coordinates.Coordinates, title
     ) -> None:
         super().__init__(game)
-        self._tick_rate = 10
+        self._tick_rate = 64
         self._fill_color = colors.Colors.BLACK
         self._window_size = window_size
         self._title = title

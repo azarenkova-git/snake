@@ -6,17 +6,17 @@ import pygame
 
 from src.components import text_component
 from src.scenes import abstract_scene
-from src.snake import snake
+from src.snake import snake, snake_game_settings
 from src.tiles import abstract_bonus, food_bonus, time_slow_bonus, remove_segment_bonus
 from src.game import game
-from src.utils import coordinates, colors
+from src.utils import coordinates
 
 
 class MainScene(abstract_scene.AbstractScene):
     """Класс сцены игрового поля"""
 
+    _game_settings: snake_game_settings.SnakeGameSettings
     _tile_size: int
-    _number_of_tiles: int
     _snake_color: pygame.Color
     _snake: snake.Snake
     _bonuses: list[abstract_bonus.AbstractBonus]
@@ -24,18 +24,21 @@ class MainScene(abstract_scene.AbstractScene):
     _speed_coeff: int
     _score_text: text_component.TextComponent
 
-    def __init__(self, game: game.Game):
-        self._tile_size = 10
-        self._number_of_tiles = 64
+    def __init__(
+        self, game: game.Game, game_settings: snake_game_settings.SnakeGameSettings
+    ):
+        self._game_settings = game_settings
         super().__init__(
             game,
             coordinates.Coordinates(
-                self._tile_size * self._number_of_tiles,
-                self._tile_size * self._number_of_tiles,
+                self._game_settings.get_tile_size()
+                * self._game_settings.get_number_of_tiles(),
+                self._game_settings.get_tile_size()
+                * self._game_settings.get_number_of_tiles(),
             ),
             "Игровое поле",
         )
-        self._snake_color = colors.Colors.GREEN
+        self._tick_rate = 10
         self._snake = snake.Snake(self)
         self._bonuses = []
         self._score = 0
@@ -50,10 +53,14 @@ class MainScene(abstract_scene.AbstractScene):
         return self._tick_rate * self._speed_coeff
 
     def increase_speed_of_snake(self) -> None:
-        self._speed_coeff *= 1.2
+        self._speed_coeff *= (
+            1.1 * self._game_settings.get_speed_multiplication_coefficient()
+        )
 
     def decrease_speed_of_snake(self) -> None:
-        self._speed_coeff *= 0.8
+        self._speed_coeff *= (
+            0.9 / self._game_settings.get_speed_multiplication_coefficient()
+        )
 
     def get_score(self) -> int:
         """Возвращает счет игрока"""
@@ -73,12 +80,12 @@ class MainScene(abstract_scene.AbstractScene):
     def get_tile_size(self) -> int:
         """Возвращает размер клетки на поле"""
 
-        return self._tile_size
+        return self._game_settings.get_tile_size()
 
     def get_snake_color(self) -> pygame.Color:
         """Возвращает цвет змеи"""
 
-        return self._snake_color
+        return self._game_settings.get_snake_color()
 
     def get_snake(self) -> snake.Snake:
         """Возвращает объект змеи"""
@@ -107,7 +114,9 @@ class MainScene(abstract_scene.AbstractScene):
 
         upper_limit = math.floor(100 * self.get_tick_rate())
 
-        threshold = self.get_tick_rate() * 3
+        threshold = (
+            self.get_tick_rate() * self._game_settings.get_rate_of_random_bonuses()
+        )
 
         success = random.randint(0, upper_limit) < threshold
 
@@ -146,8 +155,14 @@ class MainScene(abstract_scene.AbstractScene):
         raw_x = math.floor(self._window_size.x / 2)
         raw_y = math.floor(self._window_size.y / 2)
 
-        x = math.floor(raw_x / self._tile_size) * self._tile_size
-        y = math.floor(raw_y / self._tile_size) * self._tile_size
+        x = (
+            math.floor(raw_x / self._game_settings.get_tile_size())
+            * self._game_settings.get_tile_size()
+        )
+        y = (
+            math.floor(raw_y / self._game_settings.get_tile_size())
+            * self._game_settings.get_tile_size()
+        )
 
         return coordinates.Coordinates(x, y)
 
@@ -182,9 +197,15 @@ class MainScene(abstract_scene.AbstractScene):
         """Создает координаты случайной клетки на поле"""
 
         x_raw = random.randint(0, self._window_size.x)
-        x_adjusted = math.floor(x_raw / self._tile_size) * self._tile_size
+        x_adjusted = (
+            math.floor(x_raw / self._game_settings.get_tile_size())
+            * self._game_settings.get_tile_size()
+        )
 
         y_raw = random.randint(0, self._window_size.y)
-        y_adjusted = math.floor(y_raw / self._tile_size) * self._tile_size
+        y_adjusted = (
+            math.floor(y_raw / self._game_settings.get_tile_size())
+            * self._game_settings.get_tile_size()
+        )
 
         return coordinates.Coordinates(x_adjusted, y_adjusted)

@@ -3,7 +3,7 @@ from typing import Optional
 import pygame
 from pygame.time import Clock
 
-from src.scenes import abstract_scene, start_scene
+from src.scenes import abstract_scene, start_scene, select_snake_color_scene
 
 
 class Game:
@@ -50,40 +50,20 @@ class Game:
         active_scene.render()
 
         pygame.display.flip()
-        self._fps_controller.tick(active_scene.get_tick_rate())
+        self._fps_controller.tick(self._get_tick_rate())
+
+    def _get_tick_rate(self) -> int:
+        if self._active_scene.get_tick_rate() < 5:
+            return 5
+
+        return self._active_scene.get_tick_rate()
 
     def get_events(self) -> list[pygame.event.Event]:
         """Возвращает список событий, которые произошли за последний кадр"""
 
         return self._events
 
-    # def show_score(self, choice=1):
-    #     """Отображение результата"""
-    #
-    #     s_font = pygame.font.SysFont("monaco", 24)
-    #     s_surf = s_font.render("Score: {0}".format(self.score), True, Colors.BLACK)
-    #     s_rect = s_surf.get_rect()
-    #     # дефолтный случай отображаем результат слева сверху
-    #     if choice == 1:
-    #         s_rect.midtop = (80, 10)
-    #     # при game_overe отображаем результат по центру
-    #     # под надписью game over
-    #     else:
-    #         s_rect.midtop = (360, 120)
-    #     # рисуем прямоугольник поверх surface
-    #     self._play_surface.blit(s_surf, s_rect)
-    #
-    # def game_over(self):
-    #     """Функция для вывода надписи Game Over и результатов
-    #     в случае завершения игры и выход из игры"""
-    #
-    #     go_font = pygame.font.SysFont("monaco", 72)
-    #     go_surf = go_font.render("Game over", True, Colors.RED)
-    #     go_rect = go_surf.get_rect()
-    #     go_rect.midtop = (360, 15)
-    #     self._play_surface.blit(go_surf, go_rect)
-    #     self.show_score(0)
-    #     pygame.display.flip()
-    #     time.sleep(3)
-    #     pygame.quit()
-    #     sys.exit()
+    def get_mouse_pos(self) -> tuple[int, int]:
+        """Возвращает координаты мыши"""
+
+        return pygame.mouse.get_pos()
