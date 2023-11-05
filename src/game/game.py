@@ -3,7 +3,7 @@ from typing import Optional
 import pygame
 from pygame.time import Clock
 
-from src.scenes import abstract_scene, start_scene, select_snake_color_scene
+from src.scenes import abstract_scene, start_scene
 
 
 class Game:

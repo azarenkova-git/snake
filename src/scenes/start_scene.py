@@ -3,7 +3,7 @@ from __future__ import annotations
 import pygame
 
 from src.components import text_component
-from src.scenes import abstract_scene, main_scene, select_snake_color_scene
+from src.scenes import abstract_scene, enter_username_scene
 from src.game import game
 from src.snake import snake_game_settings
 from src.utils import coordinates
@@ -30,7 +30,7 @@ class StartScene(abstract_scene.AbstractScene):
         """Открывает сцену выбора цвета змейки"""
 
         self._game.set_scene(
-            select_snake_color_scene.SelectSnakeColorScene(
+            enter_username_scene.EnterUsernameScene(
                 self._game, snake_game_settings.SnakeGameSettings()
             )
         )

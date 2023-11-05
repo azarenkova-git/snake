@@ -21,7 +21,7 @@ class TextComponent(abstract_component.AbstractComponent):
     ) -> None:
         super().__init__(game)
         self._text = text
-        self._font = pygame.font.SysFont("monospace", 40)
+        self._font = pygame.font.SysFont("monospace", 30)
         self._coordinates = coordinates
 
     def _get_rect(self) -> pygame.Rect:

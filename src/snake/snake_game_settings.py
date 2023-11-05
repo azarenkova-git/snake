@@ -10,6 +10,7 @@ class SnakeGameSettings:
     _number_of_tiles: int
     _speed_multiplication_coefficient: float
     _rate_of_random_bonuses: float
+    _username: str
 
     def __init__(self):
         self._snake_color = colors.Colors.GREEN
@@ -63,3 +64,13 @@ class SnakeGameSettings:
         """Возвращает размер клетки на поле"""
 
         return 10
+
+    def get_username(self) -> str:
+        """Возвращает имя пользователя"""
+
+        return self._username
+
+    def set_username(self, username: str) -> None:
+        """Устанавливает имя пользователя"""
+
+        self._username = username
