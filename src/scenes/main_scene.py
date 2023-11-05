@@ -7,7 +7,7 @@ import pygame
 from src.components import text_component
 from src.scenes import abstract_scene
 from src.snake import snake
-from src.tiles import abstract_bonus, food
+from src.tiles import abstract_bonus, food_bonus, time_slow_bonus, remove_segment_bonus
 from src.game import game
 from src.utils import coordinates, colors
 
@@ -44,13 +44,16 @@ class MainScene(abstract_scene.AbstractScene):
             game,
             text=f"Счет: {self._score}",
         )
-        self.add_bonus(food.Food(self))
+        self.add_bonus(food_bonus.FoodBonus(self))
 
     def get_tick_rate(self) -> int:
         return self._tick_rate * self._speed_coeff
 
-    def increase_speed_of_snake(self):
+    def increase_speed_of_snake(self) -> None:
         self._speed_coeff *= 1.2
+
+    def decrease_speed_of_snake(self) -> None:
+        self._speed_coeff *= 0.8
 
     def get_score(self) -> int:
         """Возвращает счет игрока"""
@@ -97,6 +100,28 @@ class MainScene(abstract_scene.AbstractScene):
 
         super().update()
         self._snake.update()
+        self._generate_bonuses_randomly()
+
+    def _generate_bonuses_randomly(self) -> None:
+        """Генерирует бонусы на поле"""
+
+        upper_limit = math.floor(100 * self.get_tick_rate())
+
+        threshold = self.get_tick_rate() * 3
+
+        success = random.randint(0, upper_limit) < threshold
+
+        if not success:
+            return
+
+        bonuses = [
+            time_slow_bonus.TimeSlowBonus(self),
+            remove_segment_bonus.RemoveSegmentBonus(self),
+        ]
+
+        bonus = random.choice(bonuses)
+
+        self.add_bonus(bonus)
 
     def render(self) -> None:
         """Отрисовывает сцену"""

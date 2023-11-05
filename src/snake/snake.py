@@ -125,6 +125,12 @@ class Snake(abstract_component.AbstractComponent):
 
         self._segments.append(new_segment)
 
+    def remove_last_segment(self):
+        """Удаляем последний сегмент змеи"""
+
+        if len(self._segments) > 1:
+            self._segments.pop()
+
     def is_occupying_tile_by_coordinates(
         self, coordinates: coordinates.Coordinates
     ) -> bool:
