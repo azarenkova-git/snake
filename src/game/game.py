@@ -1,4 +1,5 @@
-from typing import Optional
+from collections import defaultdict
+from typing import Optional, List
 
 import pygame
 from pygame.time import Clock
@@ -13,9 +14,17 @@ class Game:
     _play_surface: Optional[pygame.Surface]
     _active_scene: abstract_scene.AbstractScene
     _events: list[pygame.event.Event]
+    _scores: defaultdict[str, List[int]]
+
+    def get_scores(self) -> defaultdict[str, List[int]]:
+        return self._scores
+
+    def add_score(self, name: str, score: int):
+        self._scores[name].append(score)
 
     def __init__(self):
         pygame.init()
+        self._scores = defaultdict(list)
         self._events = []
         self._fps_controller = pygame.time.Clock()
         self.set_scene(start_scene.StartScene(self))

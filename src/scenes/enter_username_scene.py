@@ -52,7 +52,7 @@ class EnterUsernameScene(abstract_scene.AbstractScene):
         for event in self._game.get_events():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    self._enter_username(self._input_component.get_text())
+                    self._enter_username()
 
     def render(self) -> None:
         super().render()
@@ -63,8 +63,12 @@ class EnterUsernameScene(abstract_scene.AbstractScene):
 
         self._input_component.render()
 
-    def _enter_username(self, username: str) -> None:
-        self._snake_game_settings.set_username(username)
+    def _enter_username(self) -> None:
+        self._snake_game_settings.set_username(self._input_component.get_text())
+
+        print(
+            self._snake_game_settings.get_username(), self._input_component.get_text()
+        )
 
         self._game.set_scene(
             select_snake_color_scene.SelectSnakeColorScene(

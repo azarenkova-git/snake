@@ -75,25 +75,25 @@ class SelectLevelScene(abstract_scene.AbstractScene):
     def _set_level(self, level: SnakeLevel) -> None:
         match level:
             case SnakeLevel.EASY:
-                self._snake_game_settings.set_speed_multiplication_coefficient(0.5)
+                self._snake_game_settings.set_speed_multiplication_coefficient(1)
                 self._snake_game_settings.set_rate_of_random_bonuses(2)
 
             case SnakeLevel.STANDARD:
-                self._snake_game_settings.set_speed_multiplication_coefficient(1)
+                self._snake_game_settings.set_speed_multiplication_coefficient(1.2)
                 self._snake_game_settings.set_rate_of_random_bonuses(1)
 
             case SnakeLevel.HARD:
-                self._snake_game_settings.set_speed_multiplication_coefficient(1.3)
+                self._snake_game_settings.set_speed_multiplication_coefficient(3)
                 self._snake_game_settings.set_rate_of_random_bonuses(0.5)
 
             case SnakeLevel.SMALL:
                 self._snake_game_settings.set_number_of_tiles(16)
-                self._snake_game_settings.set_speed_multiplication_coefficient(0.5)
+                self._snake_game_settings.set_speed_multiplication_coefficient(1)
 
             case SnakeLevel.STRANGE:
                 self._snake_game_settings.set_number_of_tiles(64)
                 self._snake_game_settings.set_speed_multiplication_coefficient(2.0)
-                self._snake_game_settings.set_rate_of_random_bonuses(10000)
+                self._snake_game_settings.set_rate_of_random_bonuses(10)
 
         self.get_game().set_scene(
             main_scene.MainScene(

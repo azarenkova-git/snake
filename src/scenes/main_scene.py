@@ -5,7 +5,7 @@ import random
 import pygame
 
 from src.components import text_component
-from src.scenes import abstract_scene
+from src.scenes import abstract_scene, start_scene
 from src.snake import snake, snake_game_settings
 from src.tiles import abstract_bonus, food_bonus, time_slow_bonus, remove_segment_bonus
 from src.game import game
@@ -147,7 +147,9 @@ class MainScene(abstract_scene.AbstractScene):
     def game_over(self) -> None:
         """Завершает игру"""
 
-        exit()
+        self._game.add_score(self._game_settings.get_username(), self._score)
+
+        self._game.set_scene(start_scene.StartScene(self._game))
 
     def get_initial_snake_coordinates(self) -> coordinates.Coordinates:
         """Возвращает координаты начальной позиции змеи"""

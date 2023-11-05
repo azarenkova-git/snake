@@ -33,7 +33,7 @@ class TextInputComponent(AbstractComponent):
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                self._text = ""
+                pass
 
             elif event.key == pygame.K_BACKSPACE:
                 self._text = self._text[:-1]
