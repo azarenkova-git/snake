@@ -23,7 +23,23 @@
 
 ### Инструкция к запуску
 
-```bash
-pip install -r requirements.txt
-python ./src/main.py
 ```
+pip install -r requirements.txt
+python -m src.main
+```
+
+### Инструкция к запуску тестов
+
+```
+pip install -r requirements.txt
+python -m pytest
+```
+
+### Комментарии к коду
+
+У меня были большие проблемы с круговыми зависимостями,
+поэтому импорты могут выглядеть немного странно.
+
+Строчки формата `from __future__ import annotations` также
+требуются для того, чтобы решить проблему с круговыми
+зависимостями.

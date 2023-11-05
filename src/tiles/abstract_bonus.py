@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import pygame
 
-
 from src.tiles import abstract_tile
 from src.scenes import main_scene
 
