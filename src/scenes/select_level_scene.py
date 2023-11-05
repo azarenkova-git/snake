@@ -5,7 +5,7 @@ import enum
 from src.components import text_component, button_component
 from src.scenes import abstract_scene, main_scene
 from src.snake import snake_game_settings
-from src.game import game
+from src.game import abstract_game
 from src.utils import coordinates
 
 
@@ -24,7 +24,7 @@ class SelectLevelScene(abstract_scene.AbstractScene):
 
     def __init__(
         self,
-        game: game.Game,
+        game: abstract_game.AbstractGame,
         snake_game_settings: snake_game_settings.SnakeGameSettings,
     ):
         super().__init__(game, coordinates.Coordinates(1100, 600), "Выбор уровня")

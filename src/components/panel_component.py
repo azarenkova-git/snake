@@ -3,7 +3,7 @@ from __future__ import annotations
 import pygame
 
 from src.components import abstract_component
-from src.game import game
+from src.game import abstract_game
 from src.utils import coordinates, colors
 
 
@@ -15,7 +15,7 @@ class PanelComponent(abstract_component.AbstractComponent):
 
     def __init__(
         self,
-        game: game.Game,
+        game: abstract_game.AbstractGame,
         offset: coordinates.Coordinates,
         color: str,
         callback: callable,

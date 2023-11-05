@@ -17,6 +17,7 @@ class SnakeGameSettings:
         self._number_of_tiles = 32
         self._speed_multiplication_coefficient = 1.0
         self._rate_of_random_bonuses = 1.0
+        self._username = "Player"
 
     def get_rate_of_random_bonuses(self) -> float:
         """Возвращает частоту появления бонусов"""

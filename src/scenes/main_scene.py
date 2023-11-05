@@ -8,7 +8,7 @@ from src.components import text_component
 from src.scenes import abstract_scene, start_scene
 from src.snake import snake, snake_game_settings
 from src.tiles import abstract_bonus, food_bonus, time_slow_bonus, remove_segment_bonus
-from src.game import game
+from src.game import abstract_game
 from src.utils import coordinates
 
 
@@ -25,7 +25,9 @@ class MainScene(abstract_scene.AbstractScene):
     _score_text: text_component.TextComponent
 
     def __init__(
-        self, game: game.Game, game_settings: snake_game_settings.SnakeGameSettings
+        self,
+        game: abstract_game.AbstractGame,
+        game_settings: snake_game_settings.SnakeGameSettings,
     ):
         self._game_settings = game_settings
         super().__init__(
@@ -92,6 +94,11 @@ class MainScene(abstract_scene.AbstractScene):
 
         return self._snake
 
+    def remove_all_bonuses(self) -> None:
+        """Удаляет все бонусы с поля"""
+
+        self._bonuses = []
+
     def remove_bonus(self, bonus: abstract_bonus.AbstractBonus) -> None:
         """Удаляет бонус с поля"""
 
@@ -137,12 +144,12 @@ class MainScene(abstract_scene.AbstractScene):
 
         super().render()
 
-        self._score_text.render()
-
         self._snake.render()
 
         for bonus in self._bonuses:
             bonus.render()
+
+        self._score_text.render()
 
     def game_over(self) -> None:
         """Завершает игру"""
@@ -174,10 +181,12 @@ class MainScene(abstract_scene.AbstractScene):
         while True:
             coordinates = self._create_random_tile_coordinates()
 
-            if not self._is_tile_occupied(coordinates):
+            if not self._is_tile_occupied_by_coordinates(coordinates):
                 return coordinates
 
-    def _is_tile_occupied(self, coordinates: coordinates.Coordinates) -> bool:
+    def _is_tile_occupied_by_coordinates(
+        self, coordinates: coordinates.Coordinates
+    ) -> bool:
         """Проверяет, занята ли клетка на поле"""
 
         if self._snake.is_occupying_tile_by_coordinates(coordinates):

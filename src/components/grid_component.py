@@ -4,7 +4,7 @@ import pygame
 
 from src.components.abstract_component import AbstractComponent
 from src.utils import coordinates, colors
-from src.game import game
+from src.game import abstract_game
 
 
 class GridComponent(AbstractComponent):
@@ -15,7 +15,7 @@ class GridComponent(AbstractComponent):
 
     def __init__(
         self,
-        game: game.Game,
+        game: abstract_game.AbstractGame,
         coordinates: coordinates.Coordinates,
         texts: list[list[str]],
     ):

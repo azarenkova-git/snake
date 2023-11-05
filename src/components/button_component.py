@@ -4,7 +4,7 @@ import pygame
 
 from src.components import text_component
 from src.utils import colors, coordinates
-from src.game import game
+from src.game import abstract_game
 
 
 class ButtonComponent(text_component.TextComponent):
@@ -13,7 +13,7 @@ class ButtonComponent(text_component.TextComponent):
 
     def __init__(
         self,
-        game: game.Game,
+        game: abstract_game.AbstractGame,
         text: str,
         coordinates: coordinates.Coordinates,
         callback: callable,

@@ -4,7 +4,7 @@ import pygame
 
 from src.components import text_component, grid_component
 from src.scenes import abstract_scene, enter_username_scene
-from src.game import game
+from src.game import abstract_game
 from src.snake import snake_game_settings
 from src.utils import coordinates
 
@@ -14,7 +14,7 @@ class StartScene(abstract_scene.AbstractScene):
     _hint_text_component: text_component.TextComponent
     _grid_component: grid_component.GridComponent
 
-    def __init__(self, game: game.Game):
+    def __init__(self, game: abstract_game.AbstractGame):
         super().__init__(game, coordinates.Coordinates(1100, 600), "Стартовый экран")
 
         self._text_component = text_component.TextComponent(

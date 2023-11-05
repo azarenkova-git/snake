@@ -4,7 +4,7 @@ import pygame
 
 from src.components import text_component, panel_component, text_input_component
 from src.scenes import abstract_scene, select_snake_color_scene
-from src.game import game
+from src.game import abstract_game
 from src.snake import snake_game_settings
 from src.utils import coordinates, colors
 
@@ -17,7 +17,7 @@ class EnterUsernameScene(abstract_scene.AbstractScene):
 
     def __init__(
         self,
-        game: game.Game,
+        game: abstract_game.AbstractGame,
         snake_game_settings: snake_game_settings.SnakeGameSettings,
     ):
         super().__init__(game, coordinates.Coordinates(1100, 600), "Выбор цвета змейки")
@@ -64,11 +64,12 @@ class EnterUsernameScene(abstract_scene.AbstractScene):
         self._input_component.render()
 
     def _enter_username(self) -> None:
-        self._snake_game_settings.set_username(self._input_component.get_text())
+        username = self._input_component.get_text()
 
-        print(
-            self._snake_game_settings.get_username(), self._input_component.get_text()
-        )
+        if not username:
+            return
+
+        self._snake_game_settings.set_username(self._input_component.get_text())
 
         self._game.set_scene(
             select_snake_color_scene.SelectSnakeColorScene(

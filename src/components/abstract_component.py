@@ -1,17 +1,17 @@
 from __future__ import annotations
 
-from src.game import game
+from src.game import abstract_game
 
 
 class AbstractComponent:
     """Класс для всех компонентов"""
 
-    _game: game.Game
+    _game: abstract_game.AbstractGame
 
-    def __init__(self, game: game.Game):
+    def __init__(self, game: abstract_game.AbstractGame):
         self._game = game
 
-    def get_game(self) -> game.Game:
+    def get_game(self) -> abstract_game.AbstractGame:
         """Возвращает объект игры"""
 
         return self._game

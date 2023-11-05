@@ -4,7 +4,7 @@ import pygame
 
 from src.components.abstract_component import AbstractComponent
 from src.utils import coordinates, colors
-from src.game import game
+from src.game import abstract_game
 
 
 class TextInputComponent(AbstractComponent):
@@ -13,7 +13,9 @@ class TextInputComponent(AbstractComponent):
     _coordinates: coordinates.Coordinates
     _text: str
 
-    def __init__(self, game: game.Game, coordinates: coordinates.Coordinates):
+    def __init__(
+        self, game: abstract_game.AbstractGame, coordinates: coordinates.Coordinates
+    ):
         super().__init__(game)
         self._coordinates = coordinates
         self._text = ""

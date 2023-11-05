@@ -4,7 +4,7 @@ import pygame
 
 from src.components import text_component, panel_component
 from src.scenes import abstract_scene, main_scene, select_level_scene
-from src.game import game
+from src.game import abstract_game
 from src.snake import snake_game_settings
 from src.utils import coordinates, colors
 
@@ -16,7 +16,7 @@ class SelectSnakeColorScene(abstract_scene.AbstractScene):
 
     def __init__(
         self,
-        game: game.Game,
+        game: abstract_game.AbstractGame,
         snake_game_settings: snake_game_settings.SnakeGameSettings,
     ):
         super().__init__(game, coordinates.Coordinates(1100, 600), "Выбор цвета змейки")

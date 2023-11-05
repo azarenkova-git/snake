@@ -3,7 +3,7 @@ from __future__ import annotations
 import pygame
 
 from src.components import abstract_component
-from src.game import game
+from src.game import abstract_game
 from src.utils import colors
 from src.utils.coordinates import Coordinates
 
@@ -15,7 +15,7 @@ class TextComponent(abstract_component.AbstractComponent):
 
     def __init__(
         self,
-        game: game.Game,
+        game: abstract_game.AbstractGame,
         text: str,
         coordinates: Coordinates = Coordinates(10, 10),
     ) -> None:

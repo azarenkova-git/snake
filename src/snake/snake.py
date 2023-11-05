@@ -34,8 +34,8 @@ class Snake(abstract_component.AbstractComponent):
 
     def update(self):
         """Изменяем положение головы змеи"""
-        self._move_segments()
         self._validate_direction_and_change()
+        self._move_segments()
         self._check_for_boundaries()
         self._check_for_collisions_with_bonuses()
 
@@ -141,3 +141,13 @@ class Snake(abstract_component.AbstractComponent):
                 return True
 
         return False
+
+    def get_segments_count(self) -> int:
+        """Возвращает количество сегментов змеи"""
+
+        return len(self._segments)
+
+    def get_head_segment(self) -> snake_segment.SnakeSegment:
+        """Возвращает головной сегмент змеи"""
+
+        return self._head_segment

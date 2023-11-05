@@ -4,7 +4,7 @@ import pygame
 
 from src.components import abstract_component
 from src.utils import coordinates, colors
-from src.game import game
+from src.game import abstract_game
 
 
 class AbstractScene(abstract_component.AbstractComponent):
@@ -16,7 +16,10 @@ class AbstractScene(abstract_component.AbstractComponent):
     _tick_rate: int
 
     def __init__(
-        self, game: game.Game, window_size: coordinates.Coordinates, title
+        self,
+        game: abstract_game.AbstractGame,
+        window_size: coordinates.Coordinates,
+        title,
     ) -> None:
         super().__init__(game)
         self._tick_rate = 64

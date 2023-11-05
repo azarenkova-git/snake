@@ -68,3 +68,8 @@ class AbstractTile(abstract_component.AbstractComponent):
         """Возвращает координаты тайла"""
 
         return self._coordinates.copy()
+
+    def set_coordinates(self, coordinates: coordinates.Coordinates) -> None:
+        """Устанавливает координаты тайла"""
+
+        self._coordinates = coordinates.copy()
