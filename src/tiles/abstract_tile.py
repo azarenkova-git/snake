@@ -1,20 +1,24 @@
+from __future__ import annotations
+
 import pygame
 
-import src
+from src.components import abstract_component
+from src.utils import coordinates
+from src.scenes import main_scene
 
 
-class AbstractTile(src.components.AbstractComponent):
+class AbstractTile(abstract_component.AbstractComponent):
     """Абстрактный класс тайла на игровом поле. Например - сегмент змеи или яблоко"""
 
-    _coordinates: src.utils.Coordinates
-    _main_scene: src.scenes.MainScene
+    _coordinates: coordinates.Coordinates
+    _main_scene: main_scene.MainScene
     _color: pygame.Color
 
     def __init__(
         self,
-        main_scene: src.scenes.MainScene,
+        main_scene: main_scene.MainScene,
         color: pygame.Color,
-        coordinates: src.utils.Coordinates,
+        coordinates: coordinates.Coordinates,
     ) -> None:
         super().__init__(main_scene.get_game())
         self._coordinates = coordinates
@@ -36,7 +40,9 @@ class AbstractTile(src.components.AbstractComponent):
             self._main_scene.get_tile_size(),
         )
 
-    def is_occupying_tile_by_coordinates(self, coordinates: Coordinates) -> bool:
+    def is_occupying_tile_by_coordinates(
+        self, coordinates: coordinates.Coordinates
+    ) -> bool:
         """Возвращает True, если тайл занимает тайл с переданными координатами"""
 
         return self._coordinates == coordinates
@@ -58,7 +64,7 @@ class AbstractTile(src.components.AbstractComponent):
 
         return self._get_rect().colliderect(other._get_rect())
 
-    def get_coordinates(self) -> src.utils.Coordinates:
+    def get_coordinates(self) -> coordinates.Coordinates:
         """Возвращает координаты тайла"""
 
         return self._coordinates.copy()

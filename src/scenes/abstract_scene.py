@@ -1,23 +1,30 @@
+from __future__ import annotations
+
 import pygame
 
-import src
+from src.components import abstract_component
+from src.utils import coordinates, colors
+from src.game import game
 
 
-class AbstractScene(src.components.AbstractComponent):
+class AbstractScene(abstract_component.AbstractComponent):
     """Абстрактная сцена. Обычно всегда рендерится на весь экран."""
 
-    _window_size: src.utils.Coordinates
+    _window_size: coordinates.Coordinates
     _title: str
-    _fill_color: src.utils.Colors.BLACK
+    _fill_color: pygame.Color
+    _tick_rate: int
 
     def __init__(
-        self, game: src.game.Game, window_size: src.utils.Coordinates, title
+        self, game: game.Game, window_size: coordinates.Coordinates, title
     ) -> None:
         super().__init__(game)
+        self._tick_rate = 10
+        self._fill_color = colors.Colors.BLACK
         self._window_size = window_size
         self._title = title
 
-    def get_window_size(self) -> src.utils.Coordinates:
+    def get_window_size(self) -> coordinates.Coordinates:
         """Возвращает размеры окна"""
 
         return self._window_size
@@ -36,6 +43,11 @@ class AbstractScene(src.components.AbstractComponent):
         """Обновляет сцену"""
 
         self._check_for_exit()
+
+    def get_tick_rate(self) -> int:
+        """Количество кадров в секунду"""
+
+        return self._tick_rate
 
     def _check_for_exit(self):
         """

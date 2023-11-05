@@ -1,36 +1,39 @@
+from __future__ import annotations
 from typing import Optional
 
 import pygame
 
-import src
+from src.components import abstract_component
+from src.scenes import main_scene
+from src.snake import snake_segment
+from src.utils import direction, coordinates
 
 
-class Snake(src.components.AbstractComponent):
-    _segments: list[src.snake.SnakeSegment]
-    _head_segment: src.snake.SnakeSegment
-    _main_scene: src.scenes.MainScene
-    _direction: src.utils.Direction
-    _last_segment_previous_coordinates: Optional[src.utils.Coordinates]
+class Snake(abstract_component.AbstractComponent):
+    _segments: list[snake_segment.SnakeSegment]
+    _head_segment: snake_segment.SnakeSegment
+    _main_scene: main_scene.MainScene
+    _direction: direction.Direction
+    _last_segment_previous_coordinates: Optional[coordinates.Coordinates]
 
-    def __init__(self, main_scene: src.scenes.MainScene):
+    def __init__(self, main_scene: main_scene.MainScene):
         super().__init__(main_scene.get_game())
         self._main_scene = main_scene
         self._segments = []
-        self._head_segment = src.snake.SnakeSegment(
+        self._head_segment = snake_segment.SnakeSegment(
             self,
             main_scene.get_initial_snake_coordinates(),
         )
         self._segments = [self._head_segment]
-        self._direction = src.utils.Direction.RIGHT
+        self._direction = direction.Direction.RIGHT
 
-    def get_main_scene(self) -> src.scenes.MainScene:
+    def get_main_scene(self) -> main_scene.MainScene:
         """Возвращает сцену, на которой находится змея"""
 
         return self._main_scene
 
     def update(self):
         """Изменяем положение головы змеи"""
-
         self._move_segments()
         self._validate_direction_and_change()
         self._check_for_boundaries()
@@ -46,27 +49,31 @@ class Snake(src.components.AbstractComponent):
             if event.type == pygame.KEYDOWN:
                 if (
                     event.key == pygame.K_UP
-                    and self._direction != src.utils.Direction.DOWN
+                    and self._direction != direction.Direction.DOWN
                 ):
-                    self._direction = src.utils.Direction.UP
+                    self._direction = direction.Direction.UP
+                    break
 
                 elif (
                     event.key == pygame.K_DOWN
-                    and self._direction != src.utils.Direction.UP
+                    and self._direction != direction.Direction.UP
                 ):
-                    self._direction = src.utils.Direction.DOWN
+                    self._direction = direction.Direction.DOWN
+                    break
 
                 elif (
                     event.key == pygame.K_LEFT
-                    and self._direction != src.utils.Direction.RIGHT
+                    and self._direction != direction.Direction.RIGHT
                 ):
-                    self._direction = src.utils.Direction.LEFT
+                    self._direction = direction.Direction.LEFT
+                    break
 
                 elif (
                     event.key == pygame.K_RIGHT
-                    and self._direction != src.utils.Direction.LEFT
+                    and self._direction != direction.Direction.LEFT
                 ):
-                    self._direction = src.utils.Direction.RIGHT
+                    self._direction = direction.Direction.RIGHT
+                    break
 
     def _move_segments(self):
         """Перемещает голову змеи в нужном направлении и сдвигаем сегменты"""
@@ -75,7 +82,9 @@ class Snake(src.components.AbstractComponent):
         # нового сегмента змеи
         self._last_segment_previous_coordinates = self._segments[-1].get_coordinates()
 
-        for segment, next_segment in zip(self._segments[:-1], self._segments[1:]):
+        for segment, next_segment in zip(
+            reversed(self._segments[:-1]), reversed(self._segments[1:])
+        ):
             next_segment.move_to_segment(segment)
 
         self._head_segment.move_in_direction(self._direction)
@@ -109,7 +118,7 @@ class Snake(src.components.AbstractComponent):
     def add_new_segment(self):
         """Добавляем сегмент к змее"""
 
-        new_segment = src.snake.SnakeSegment(
+        new_segment = snake_segment.SnakeSegment(
             self,
             self._last_segment_previous_coordinates,
         )
@@ -117,7 +126,7 @@ class Snake(src.components.AbstractComponent):
         self._segments.append(new_segment)
 
     def is_occupying_tile_by_coordinates(
-        self, coordinates: src.utils.Coordinates
+        self, coordinates: coordinates.Coordinates
     ) -> bool:
         """Проверка, что тело змеи занимает тайл с указанными координатами"""
 

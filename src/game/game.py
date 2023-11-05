@@ -3,7 +3,7 @@ from typing import Optional
 import pygame
 from pygame.time import Clock
 
-import src
+from src.scenes import abstract_scene, start_scene
 
 
 class Game:
@@ -11,15 +11,17 @@ class Game:
 
     _fps_controller: Clock
     _play_surface: Optional[pygame.Surface]
-    _active_scene: src.scenes.AbstractScene
+    _active_scene: abstract_scene.AbstractScene
     _events: list[pygame.event.Event]
 
     def __init__(self):
+        pygame.init()
         self._events = []
         self._fps_controller = pygame.time.Clock()
-        self.set_scene(src.scenes.StartScene(self))
+        self.set_scene(start_scene.StartScene(self))
+        self.start_game()
 
-    def set_scene(self, scene: src.scenes.AbstractScene):
+    def set_scene(self, scene: abstract_scene.AbstractScene):
         """Устанавливает активную сцену и меняет заголовок окна/размер окна"""
 
         self._active_scene = scene
@@ -30,6 +32,10 @@ class Game:
         """Возвращает поверхность, на которой происходит отрисовка"""
 
         return self._play_surface
+
+    def start_game(self):
+        while True:
+            self.game_tick()
 
     def game_tick(self):
         """Самый главный метод, который вызывается каждый кадр. Отвечает за обновление и отрисовку сцены"""
@@ -44,7 +50,7 @@ class Game:
         active_scene.render()
 
         pygame.display.flip()
-        self._fps_controller.tick(23)
+        self._fps_controller.tick(active_scene.get_tick_rate())
 
     def get_events(self) -> list[pygame.event.Event]:
         """Возвращает список событий, которые произошли за последний кадр"""

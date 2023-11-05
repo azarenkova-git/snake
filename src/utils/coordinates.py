@@ -18,3 +18,6 @@ class Coordinates:
         """Возвращает координаты в виде кортежа"""
 
         return self.x, self.y
+
+    def __repr__(self):
+        return f"(x: {self.x}, y: {self.y})"
